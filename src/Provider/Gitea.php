@@ -1,5 +1,11 @@
 <?php
-
+/*
+ * Gitea OAuth2 Provider
+ * (c) Benjamin Gaudé <dev@foxdeveloper.io>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace FoxDeveloper\OAuth2\Client\Provider;
 
@@ -9,12 +15,21 @@ use League\OAuth2\Client\Token\AccessToken;
 use League\OAuth2\Client\Tool\BearerAuthorizationTrait;
 use Psr\Http\Message\ResponseInterface;
 
+/**
+ * Gitea.
+ *
+ * @author Benjamin Gaudé <dev@foxdeveloper.io>
+ */
 class Gitea extends AbstractProvider
 {
 	use BearerAuthorizationTrait;
 
+	/**
+	 * Gitea base URL 
+	 * 
+	 * @var string
+	 */
 	public $baseUrl;
-
 
 	public function __construct(array $params)
 	{
@@ -22,7 +37,12 @@ class Gitea extends AbstractProvider
         $this->baseUrl = $params['baseUrl'];
 	}
 	
-	public function getBaseUrl(): string
+	/**
+	 * Get the Gitea base URL 
+	 * 
+	 * @return string
+	 */
+	public function getBaseUrl()
 	{
 
         return $this->baseUrl;
