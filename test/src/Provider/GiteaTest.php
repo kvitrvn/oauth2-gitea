@@ -1,14 +1,26 @@
 <?php
-
+/*
+ * Gitea OAuth2 Provider
+ * (c) Benjamin Gaudé <dev@foxdeveloper.io>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace FoxDeveloper\OAuth2\Client\Test\Provider;
 
 use FoxDeveloper\OAuth2\Client\Provider\Gitea;
+use GuzzleHttp\ClientInterface;
 use League\OAuth2\Client\Tool\QueryBuilderTrait;
 use PHPUnit\Framework\TestCase;
 use Mockery as m;
 use Mockery\MockInterface;
 
+/**
+ * GiteaTest.
+ * 
+ * @author Benjamin Gaudé <dev@foxdeveloper.io>
+ */
 class GiteaTest extends TestCase
 {
 	use QueryBuilderTrait;
@@ -83,7 +95,7 @@ class GiteaTest extends TestCase
         $response->shouldReceive('getHeader')->andReturn(['content-type' => 'json']);
         $response->shouldReceive('getStatusCode')->andReturn(200);
 
-		/** @var MockInterface */
+		/** @var MockInterface|ClientInterface */
         $client = m::mock('GuzzleHttp\ClientInterface');
         $client->shouldReceive('send')->times(1)->andReturn($response);
         $this->provider->setHttpClient($client);
