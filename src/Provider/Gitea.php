@@ -3,6 +3,7 @@
 
 namespace FoxDeveloper\OAuth2\Client\Provider;
 
+use FoxDeveloper\OAuth2\Client\Provider\Exception\GiteaIdentityProviderException;
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Token\AccessToken;
 use League\OAuth2\Client\Tool\BearerAuthorizationTrait;
@@ -12,12 +13,28 @@ class Gitea extends AbstractProvider
 {
 	use BearerAuthorizationTrait;
 
+	public $baseUrl;
+
+
+	public function __construct(array $params)
+	{
+		parent::__construct($params);
+        $this->baseUrl = $params['baseUrl'];
+	}
+	
+	public function getBaseUrl(): string
+	{
+
+        return $this->baseUrl;
+	}
+
 	/**
 	 * @inheritdoc
 	 */
 	public function getBaseAuthorizationUrl()
 	{
-        die('impleme me');
+
+        return $this->getBaseUrl().'/login/oauth/authorize';
 	}
 
 	/**
@@ -26,7 +43,8 @@ class Gitea extends AbstractProvider
 	public function getBaseAccessTokenUrl(array $params)
 	{
 		
-        die('impleme me');
+
+        return $this->getBaseUrl().'/login/oauth/access_token';
 	}
 
 	/**
@@ -34,7 +52,7 @@ class Gitea extends AbstractProvider
 	 */
 	public function getResourceOwnerDetailsUrl(AccessToken $token)
 	{
-        die('impleme me');
+		return $this->getBaseUrl().'/api/v1/user';
 		
 	}
 
@@ -52,7 +70,11 @@ class Gitea extends AbstractProvider
 	 */
 	protected function checkResponse(ResponseInterface $response, $data)
 	{
-        die('impleme me');
+        if ($response->getStatusCode() >= 400) {
+            throw GiteaIdentityProviderException::clientException($response, $data);
+        } elseif (isset($data['error'])) {
+            throw GiteaIdentityProviderException::oauthException($response, $data);
+        }
 		
 	}
 
@@ -61,7 +83,9 @@ class Gitea extends AbstractProvider
 	 */
 	protected function createResourceOwner(array $response, AccessToken $token)
 	{
-        die('impleme me');
+        $user = new GiteaResourceOwner($response);
+
+        return $user;
 		
 	}
 }
