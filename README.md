@@ -1,5 +1,7 @@
 # Gitea Provider for OAuth 2.0 Client
 
+[![SymfonyInsight](https://insight.symfony.com/projects/e32f86e6-2312-4ec1-ac21-adb7d2fb6f33/mini.svg)](https://insight.symfony.com/projects/e32f86e6-2312-4ec1-ac21-adb7d2fb6f33)
+
 :warning: **Under development** :warning:
 
 This package provides Gitea OAuth 2.0 support for the PHP League's OAuth 2.0 Client.
