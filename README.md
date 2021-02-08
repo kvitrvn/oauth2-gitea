@@ -1,6 +1,6 @@
 # Gitea Provider for OAuth 2.0 Client
 
-[![SymfonyInsight](https://insight.symfony.com/projects/e32f86e6-2312-4ec1-ac21-adb7d2fb6f33/mini.svg)](https://insight.symfony.com/projects/e32f86e6-2312-4ec1-ac21-adb7d2fb6f33)
+![SymfonyInsight](https://insight.symfony.com/projects/e32f86e6-2312-4ec1-ac21-adb7d2fb6f33/mini.svg)
 
 :warning: **Under development** :warning:
 
