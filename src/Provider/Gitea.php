@@ -22,90 +22,82 @@ use Psr\Http\Message\ResponseInterface;
  */
 class Gitea extends AbstractProvider
 {
-	use BearerAuthorizationTrait;
+    use BearerAuthorizationTrait;
 
-	/**
-	 * Gitea base URL 
-	 * 
-	 * @var string
-	 */
-	public $baseUrl;
+    /**
+     * Gitea base URL.
+     *
+     * @var string
+     */
+    public $baseUrl;
 
-	public function __construct(array $params)
-	{
-		parent::__construct($params);
+    public function __construct(array $params)
+    {
+        parent::__construct($params);
         $this->baseUrl = $params['baseUrl'];
-	}
-	
-	/**
-	 * Get the Gitea base URL 
-	 * 
-	 * @return string
-	 */
-	public function getBaseUrl()
-	{
+    }
 
+    /**
+     * Get the Gitea base URL.
+     *
+     * @return string
+     */
+    public function getBaseUrl()
+    {
         return $this->baseUrl;
-	}
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getBaseAuthorizationUrl()
-	{
-
+    /**
+     * {@inheritdoc}
+     */
+    public function getBaseAuthorizationUrl()
+    {
         return $this->getBaseUrl().'/login/oauth/authorize';
-	}
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getBaseAccessTokenUrl(array $params)
-	{
-		
-
+    /**
+     * {@inheritdoc}
+     */
+    public function getBaseAccessTokenUrl(array $params)
+    {
         return $this->getBaseUrl().'/login/oauth/access_token';
-	}
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getResourceOwnerDetailsUrl(AccessToken $token)
-	{
-		return $this->getBaseUrl().'/api/v1/user';
-		
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function getResourceOwnerDetailsUrl(AccessToken $token)
+    {
+        return $this->getBaseUrl().'/api/v1/user';
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	protected function getDefaultScopes()
-	{
-
+    /**
+     * {@inheritdoc}
+     */
+    protected function getDefaultScopes()
+    {
         return [];
-	}
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	protected function checkResponse(ResponseInterface $response, $data)
-	{
+    /**
+     * {@inheritdoc}
+     */
+    protected function checkResponse(ResponseInterface $response, $data)
+    {
         if ($response->getStatusCode() >= 400) {
             throw GiteaIdentityProviderException::clientException($response, $data);
         } elseif (isset($data['error'])) {
             throw GiteaIdentityProviderException::oauthException($response, $data);
         }
-		
-	}
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	protected function createResourceOwner(array $response, AccessToken $token)
-	{
+    /**
+     * {@inheritdoc}
+     */
+    protected function createResourceOwner(array $response, AccessToken $token)
+    {
         $user = new GiteaResourceOwner($response);
 
         return $user;
-		
-	}
+    }
 }
