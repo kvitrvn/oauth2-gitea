@@ -40,7 +40,7 @@ class GiteaResourceOwner implements ResourceOwnerInterface
     /**
      * {@inheritdoc}
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->getValueByKey($this->response, 'id');
     }
